@@ -4,6 +4,9 @@ def parse_adjacency_matrix(file_path):
     with open(file_path, 'r') as f:
         lines = f.readlines()
 
+    if len(lines) == 0 or '\n' not in lines:
+        return adjacency_matrix, nodeName
+    
     idxName = lines.index('\n')
     if idxName != -1:
         line = lines[:idxName]
@@ -12,14 +15,6 @@ def parse_adjacency_matrix(file_path):
 
         nodes = lines[idxName + 1:]
         for node in nodes:
-            nodeName.append(node.strip().split())
-
+            nodeName = node.strip().split()
     return adjacency_matrix, nodeName
 
-matrix, nodeName = parse_adjacency_matrix('test.txt')
-
-for i in range(len(matrix)):
-    print(matrix[i])
-    
-for i in range(len(nodeName)):
-    print(nodeName[i])
