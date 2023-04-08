@@ -24,6 +24,12 @@ class Node:
     def setHeuristic(self, heuristic):
         self.__heuristic = heuristic
 
+    def getIdx(self):
+        return self.__idx
+    
+    def getWeight(self, idx):
+        return self.__adjacents[idx]
+    
     # METHODS --------------------------------
     def __str__(self):
         adjacent_str = ''
@@ -56,8 +62,27 @@ class Graph:
     def getNode(self, name):
         for i in range(len(self.__nodes)):
             if self.__nodes[i].getName() == name:
-                return self.__nodes[i]      
+                return self.__nodes[i]
         return None
     
     def getNodeIdx(self, idx):
         return self.__nodes[idx]
+    
+    def getIdxNode(self, node):
+        for i in range(len(self.__nodes)):
+            if self.__nodes[i] == node:
+                return i
+        return -1
+    
+    def getNeighbor(self, node):
+        neighbor = []
+        for i in range(len(self.__nodes)):
+            if self.__matrix[self.getIdxNode(node)][i] != 0:
+                neighbor.append(self.getNodeIdx(i))
+        return neighbor
+    
+    def getNodeWeight(self, node1, node2):
+        return self.__matrix[self.getIdxNode(node1)][self.getIdxNode(node2)]
+    
+    def getNameNode(self, idx):
+        return self.__nodes[idx].getName()
