@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="bg">
+    <file>output.png</file>
+    <file>final.png</file>
+    <file>graph.png</file>
+    <file>start.png</file>
+    <file>input.png</file>
+    <file>astar.png</file>
+    <file>ucs.png</file>
+    <file>algo.png</file>
+    <file>title.png</file>
+    <file>wallpaper.png</file>
+  </qresource>
+</RCC>
