@@ -23,9 +23,6 @@ class Node:
     
     def setHeuristic(self, heuristic):
         self.__heuristic = heuristic
-
-    def getIdx(self):
-        return self.__idx
     
     def getWeight(self, idx):
         return self.__adjacents[idx]
@@ -65,7 +62,7 @@ class Graph:
                 return self.__nodes[i]
         return None
     
-    def getNodeIdx(self, idx):
+    def getNodeByIdx(self, idx):
         return self.__nodes[idx]
     
     def getIdxNode(self, node):

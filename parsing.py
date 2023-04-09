@@ -18,12 +18,20 @@ def parse_adjacency_matrix(file_path):
         line = lines[:idxName]
         for l in line:
             adjacency_matrix.append([int(x) for x in l.strip().split()])
-
+        
+        # return empty matrix if matrix is empty or not square
+        if len(adjacency_matrix) == 0 or len(adjacency_matrix[0]) == 0 or len(adjacency_matrix) != len(adjacency_matrix[0]):
+            return [], []
+        
         # convert string to list of string (node name)
         nodes = lines[idxName + 1:]
         for node in nodes:
             nodeName = node.strip().split()
 
+        # return empty matrix if node name is empty or not equal to matrix size
+        if len(nodeName) == 0 or len(nodeName) != len(adjacency_matrix):
+            return [], []
+        
         # convert list of string to list of node
         for i in range(len(nodeName)):
             name = nodeName[i]
