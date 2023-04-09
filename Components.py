@@ -1,15 +1,16 @@
+import numpy as np
+import function as func
 class Node:
     # ATRIBUTTES -----------------------------
     # name: String
     # adjacents: List of Int (adjacency list)
     # heuristic: Int (heuristic value)
-    # idx: Int (index of node in list of nodes)
 
     # CONSTRUCTOR ----------------------------
-    def __init__(self, name, adjacents, heuristic):
+    def __init__(self, name, adjacents):
         self.__name = name
         self.__adjacents = adjacents
-        self.__heuristic = heuristic
+        self.__heuristic = 0
 
     # GETTER ---------------------------------
     def getName(self):
@@ -83,3 +84,11 @@ class Graph:
     
     def getNameNode(self, idx):
         return self.__nodes[idx].getName()
+    
+    # METHODS --------------------------------
+    def convertCoordinatesToWAM(self, listCoordinate: list[list[int]]):
+        for i in range(len(self.__matrix)):
+            for j in range(len(self.__matrix[i])):
+                if self.__matrix[i][j] == 1:
+                    self.__matrix[i][j] = func.haversineDistance(listCoordinate[i][0], listCoordinate[i][1], listCoordinate[j][0], listCoordinate[j][1])
+                    self.__matrix[j][i] = self.__matrix[i][j]

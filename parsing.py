@@ -1,4 +1,5 @@
-import Components
+import Components as comp
+import function as func
 
 def parse_adjacency_matrix(file_path):
     global graf
@@ -34,15 +35,10 @@ def parse_adjacency_matrix(file_path):
             return [], []
         
         # convert list of string to list of node
-        for i in range(len(nodeName)):
-            name = nodeName[i]
-            adjacent = adjacency_matrix[i]
-            heuristic = 0
-            node = Components.Node(name, adjacent, heuristic)
-            nodeList.append(node)
+        nodeList = func.initiateListNode(nodeName, adjacency_matrix)
     
     # initialize Graph
-    graf = Components.Graph(adjacency_matrix, nodeList)
+    graf = comp.Graph(adjacency_matrix, nodeList)
     return graf
 
 def parse_adjacency_list(file_path):
@@ -79,11 +75,6 @@ def parse_adjacency_list(file_path):
             return [], []
         
         # convert list of string to list of node
-        for i in range(len(nodeName)):
-            name = nodeName[i]
-            adjacent = adjacency_list[i]
-            heuristic = 0
-            node = Components.Node(name, adjacent, heuristic)
-            nodeList.append(node)
+        nodeList = func.initiateListNode(nodeName, adjacency_list)
 
     return adjacency_list
