@@ -10,6 +10,18 @@
     <height>720</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>1280</width>
+    <height>720</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1280</width>
+    <height>720</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -24,7 +36,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url("../gui/wallpaper.png");</string>
+     <string notr="true">background-image: url(&quot;../gui/wallpaper.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -40,7 +52,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url("../gui/title.png");</string>
+     <string notr="true">image: url(&quot;../gui/title.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -56,7 +68,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url("../gui/input.png");</string>
+     <string notr="true">image: url(&quot;../gui/input.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -75,7 +87,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url("../gui/algo.png");</string>
+     <string notr="true">image: url(&quot;../gui/algo.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -91,7 +103,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url("../gui/ucs.png");</string>
+     <string notr="true">image: url(&quot;../gui/ucs.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -110,7 +122,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url("../gui/astar.png");</string>
+     <string notr="true">image: url(&quot;../gui/astar.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -129,7 +141,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url("../gui/start.png");</string>
+     <string notr="true">image: url(&quot;../gui/start.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -145,7 +157,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url("../gui/graph.png");</string>
+     <string notr="true">image: url(&quot;../gui/graph.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -161,7 +173,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url("../gui/final.png");</string>
+     <string notr="true">image: url(&quot;../gui/final.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -210,10 +222,20 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url("../gui/output.png");</string>
+     <string notr="true">image: url(&quot;../gui/output.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>180</y>
+      <width>701</width>
+      <height>431</height>
+     </rect>
     </property>
    </widget>
   </widget>

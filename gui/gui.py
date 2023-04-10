@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsView, QGraphicsEllipseItem, QGraphicsScene, QGraphicsRectItem, QPushButton, QFileDialog, QComboBox, QLineEdit, QGraphicsLineItem
+from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QFileDialog, QComboBox, QLineEdit, QGraphicsView, QWidget, QVBoxLayout, QGraphicsScene
 from PyQt5.QtGui import QPen, QBrush, QColor
 from PyQt5.QtCore import Qt, QRectF
 from PyQt5 import uic
@@ -7,6 +7,31 @@ sys.path.append('../src/')
 import algorithm
 import Components as comp
 import parsing
+import numpy as np
+import networkx as nx
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
+# class graphCanvas(QWidget):
+#     def __init__(self, parent: None):
+#         super().__init__(parent)
+#         self.figure = plt.figure()
+#         self.canvas = FigureCanvas(self.figure)
+#         self.layout = QVBoxLayout(self)
+#         self.layout.addWidget(self.canvas)
+
+#         self.graph = nx.DiGraph(np.matrix(UI.matrix(self)))
+#         self.pos = nx.spring_layout(self.graph)
+#         self.ax = self.figure.add_subplot(111)
+#         self.ax.set_title("Graph")
+#         self.plot()
+
+#     def plot(self):
+#         self.ax.clear()
+#         nx.draw(self.graph, self.pos, with_labels=True, node_size=30, node_color='red', font_size=10)
+#         self.canvas.draw()
+
 
 class UI(QMainWindow):
     def __init__(self):
@@ -33,10 +58,14 @@ class UI(QMainWindow):
         self.dropdown.addItems(["ITB", "Alun-Alun Bandung", "Bandung Selatan", "Jatinangor", "Input File"])
         self.dropdown.currentIndexChanged.connect(self.dropdownChanged)
 
-        # start
+        #graph
+        self.widget = self.findChild(QWidget, "widget")
+        self.widget.setGeometry(510,180,701,431)
+    
+        #start
         self.start = self.findChild(QLineEdit, "lineEdit")
         
-        # goal
+        #goal
         self.goal = self.findChild(QLineEdit, "lineEdit_2")
 
         self.show()
@@ -46,11 +75,15 @@ class UI(QMainWindow):
     def pushInputFile(self):
         global input
         global matrix
+        global node
+        node = []
         file = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "Text files (*.txt)")
         if file:
             input = parsing.parse_adjacency_matrix(file[0])
             matrix = input.getMatrix()
- 
+            for i in range(len(input.getListNode())):
+                node.append(input.getNameNode(i))
+
     
     # input start
     def input(self):
@@ -58,37 +91,40 @@ class UI(QMainWindow):
         input = self.start.text()
         print(input)
 
+    #plot graph
     def plot_graph(self):
-        scene = QGraphicsScene()
-        scene.setSceneRect(QRectF(510,180,701,431))
-        node_size = 10
-        for i in range (len(matrix)):
-            node = QGraphicsEllipseItem(0,0,node_size,node_size)
-            node.setBrush(QBrush(QColor(255,0,0)))
-            node.setPen(QPen(QColor(0,0,0)))
-            node.setPos((i+1)*100,100)
-            scene.addItem(node)
-        for i in range (len(matrix)):
-            for j in range (len(matrix[i])):
+        Graph = nx.Graph()
+        for nodes in Graph.nodes():
+            Graph.nodes[nodes]['label'] = node[nodes]
+        for i in range(len(node)):
+            for j in range(i+1, len(node)):
                 if matrix[i][j] != 0:
-                    line = QGraphicsLineItem((i+1)*100+5,100+5,(j+1)*100+5,100+5)
-                    line.setPen(QPen(QColor(0,0,0)))
-                    scene.addItem(line)
-        self.view = QGraphicsView()
-        self.view.setScene(scene)
-        self.view.show()
+                    Graph.add_edge(node[i], node[j], weight=matrix[i][j])
+        fig = Figure(figsize=(7,5), dpi=100)
+        pos = nx.spring_layout(Graph)
+        ax = fig.add_subplot(111)
+        nx.draw(Graph, pos, with_labels=True, node_size=200, node_color='red', font_size=10, ax=ax)
+        canvas = FigureCanvas(fig)
+        path_color = 'green'
+        nx.draw_networkx_edges(Graph, pos, edgelist=[(path[i], path[i+1]) for i in range(len(path)-1)], edge_color=path_color)
+        nx.draw_networkx_edges(Graph, pos, edgelist=[(u, v) for (u, v) in Graph.edges() if (u, v) not in [(path[i], path[i+1]) for i in range(len(path)-1)]])
+        plt.axis('off')
+        canvas.setParent(self.widget)
+        canvas.show()
 
     #ucs
     def chooseUCS(self):
+        global cost
+        global path
         cost, path = algorithm.uniform_cost_search(graph=input, start = self.start.text(), goal = self.goal.text())
-        print(cost)
-        print(path)
+        return cost, path
 
     #astar
     def chooseA(self):
+        global cost
+        global path
         cost, path = algorithm.a_star(graph=input, start = self.start.text(), goal = self.goal.text())
-        print(cost)
-        print(path)
+        return cost, path
 
     #dropdown
     def dropdownChanged(self):
@@ -102,8 +138,9 @@ class UI(QMainWindow):
             pass
         elif self.dropdown.currentText() == "Input File":
             pass
-        
 
-app = QApplication(sys.argv)
-window = UI()
-app.exec_()
+if __name__ == "__main__":
+    import sys
+    app = QApplication(sys.argv)
+    window = UI()
+    sys.exit(app.exec_())
