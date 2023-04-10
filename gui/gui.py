@@ -3,7 +3,7 @@ from PyQt5.QtGui import QPen, QBrush, QColor
 from PyQt5.QtCore import Qt, QRectF
 from PyQt5 import uic
 import sys
-sys.path.append('..')
+sys.path.append('../src/')
 import algorithm
 import Components as comp
 import parsing
@@ -21,12 +21,12 @@ class UI(QMainWindow):
         #label ucs
         self.ucs = self.findChild(QPushButton, "pushButton_2")
         self.ucs.clicked.connect(self.chooseUCS)
-        # self.ucs.clicked.connect(self.plot_graph)
+        self.ucs.clicked.connect(self.plot_graph)
 
         #label a*
         self.a = self.findChild(QPushButton, "pushButton_3")
         self.a.clicked.connect(self.chooseA)
-        # self.a.clicked.connect(self.plot_graph)
+        self.a.clicked.connect(self.plot_graph)
 
         #dropdown
         self.dropdown = self.findChild(QComboBox, "comboBox")
@@ -49,7 +49,7 @@ class UI(QMainWindow):
         file = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "Text files (*.txt)")
         if file:
             input = parsing.parse_adjacency_matrix(file[0])
-            matrix = parsing.parse_adjacency_list(file[0])
+            matrix = input.getMatrix()
  
     
     # input start
@@ -80,13 +80,15 @@ class UI(QMainWindow):
 
     #ucs
     def chooseUCS(self):
-        algorithm.uniform_cost_search(graph=input, start = self.start.text(), goal = self.goal.text())
-        
+        cost, path = algorithm.uniform_cost_search(graph=input, start = self.start.text(), goal = self.goal.text())
+        print(cost)
+        print(path)
 
     #astar
     def chooseA(self):
-        algorithm.a_star(graph=input, start = self.start.text(), goal = self.goal.text())
-        
+        cost, path = algorithm.a_star(graph=input, start = self.start.text(), goal = self.goal.text())
+        print(cost)
+        print(path)
 
     #dropdown
     def dropdownChanged(self):
