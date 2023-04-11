@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="bg">
+    <file>opengmap.png</file>
     <file>output.png</file>
     <file>final.png</file>
     <file>graph.png</file>
