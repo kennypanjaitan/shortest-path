@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QFileDialog, QComboBox, QLineEdit, QWidget, QVBoxLayout, QDialog, QLabel, QPushButton
+from PyQt5.QtGui import QFont, QFontMetrics
 from PyQt5 import uic
 import sys
 sys.path.append('../src/')
@@ -37,23 +38,31 @@ class UI(QMainWindow):
         self.a.clicked.connect(self.plot_graph)
 
         #dropdown
-        self.dropdown = self.findChild(QComboBox, "comboBox")
+        self.dropdown = self.findChild(QComboBox, "comboBox_2")
         self.dropdown.addItems(["Input File", "ITB", "Alun-Alun Bandung", "Bandung Selatan", "Jatinangor"])
         self.dropdown.currentIndexChanged.connect(self.dropdownChanged)
 
         #graph
         self.widget = self.findChild(QWidget, "widget")
-        self.widget.setGeometry(510,180,701,431)
+        self.widget.setGeometry(800,370,993,645)
     
         #start
-        self.start = self.findChild(QLineEdit, "lineEdit")
+        self.start = self.findChild(QLineEdit, "lineEdit_3")
         
         #goal
-        self.goal = self.findChild(QLineEdit, "lineEdit_2")
+        self.goal = self.findChild(QLineEdit, "lineEdit")
 
         #show gmap
         self.gmap = self.findChild(QPushButton, "pushButton_4")
         self.gmap.clicked.connect(self.showGmap)
+
+        # cost
+        self.cost = self.findChild(QLabel, "label_10")
+        
+        self.label_9 = self.findChild(QLabel, "label_9")
+
+        # path
+        self.path = self.findChild(QLabel, "label_11")
 
         self.show()
     
@@ -100,7 +109,7 @@ class UI(QMainWindow):
             for j in range(i+1, len(node)):
                 if matrix[i][j] != 0:
                     Graph.add_edge(node[i], node[j], weight=matrix[i][j])
-        fig = Figure(figsize=(7,5), dpi=100)
+        fig = Figure(figsize=(10,5.3), dpi=100)
         canvas = FigureCanvas(fig)
         pos = nx.spring_layout(Graph)
         ax = fig.add_subplot(111)
@@ -143,6 +152,14 @@ class UI(QMainWindow):
         global path
         try:
             cost, path = algorithm.uniform_cost_search(input, self.start.text(), self.goal.text())
+            font = QFont()
+            font.setPointSize(10)
+            self.cost.setFont(font)
+            self.cost.setText(str(cost))
+            self.path.setFont(font)
+            self.path.setText(str(path))
+            self.path.setAdjustSize(True)
+
             return cost, path
         except:
             if self.start.text() == "":
@@ -188,6 +205,13 @@ class UI(QMainWindow):
         global path
         try:
             cost, path = algorithm.a_star(input, self.start.text(), self.goal.text())
+            font = QFont()
+            font.setPointSize(10)
+            self.cost.setFont(font)
+            self.cost.setText(str(cost))
+            self.path.setFont(font)
+            self.path.setText(str(path))
+            self.path.setAdjustSize(True)
             return cost, path
         except:
             if self.start.text() == "":

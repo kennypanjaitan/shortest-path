@@ -1,15 +1,17 @@
 <RCC>
   <qresource prefix="bg">
+    <file>cost.png</file>
     <file>opengmap.png</file>
-    <file>output.png</file>
-    <file>final.png</file>
-    <file>graph.png</file>
-    <file>start.png</file>
-    <file>input.png</file>
     <file>astar.png</file>
+    <file>path.png</file>
     <file>ucs.png</file>
-    <file>algo.png</file>
+    <file>final.png</file>
+    <file>output.png</file>
+    <file>start.png</file>
+    <file>graph.png</file>
+    <file>input.png</file>
     <file>title.png</file>
     <file>wallpaper.png</file>
+    <file>algorithm.png</file>
   </qresource>
 </RCC>
