@@ -1,3 +1,3 @@
-from .core import algorithm as algo, Area as area, Components as comp, function as func, parsing as parse
+from .core import algorithm, Area, Components, function, parsing
 from .gui import gui
 from .places import *

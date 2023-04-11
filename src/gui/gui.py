@@ -12,7 +12,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 from src.core import algorithm as algo, Area as area, Components as comp, function as func, parsing as parse
-import src.places as places
+from src.places import itbBdg as gane, itbNangor as nangor, alunalun as alun
 
 
 class UI(QMainWindow):
@@ -37,7 +37,7 @@ class UI(QMainWindow):
 
         #dropdown
         self.dropdown = self.findChild(QComboBox, "comboBox_2")
-        self.dropdown.addItems(["Input File", "ITB", "Alun-Alun Bandung", "Bandung Selatan", "Jatinangor"])
+        self.dropdown.addItems(["Input File", "ITB Ganesha", "ITB Jatinangor", "Alun-Alun Bandung", "Bandung Selatan", "Cilacap"])
         self.dropdown.currentIndexChanged.connect(self.dropdownChanged)
 
         #graph
@@ -122,27 +122,47 @@ class UI(QMainWindow):
     def dropdownChanged(self):
         if self.dropdown.currentText() == "Input File":
             pass
-        elif self.dropdown.currentText() == "ITB":
+        else:
             global input
             global matrix
             global node
             global place
             node = []
-            place = area.Area(places.itbNangor.x, places.y, places.zoom, places.listKoordinat, places.listNodeName, places.matriks)
-            nodeList = func.initiateListNode(places.listNodeName, places.matriks)
-            graph = comp.Graph(places.matriks, nodeList)
-            graph.convertCoordinatesToWAM(place.getListCoordinate())
-            input = graph
-            matrix = input.getMatrix()
-            for i in range(len(input.getListNode())):
-                node.append(input.getNameNode(i))
 
-        elif self.dropdown.currentText() == "Alun-Alun Bandung":
-            pass
-        elif self.dropdown.currentText() == "Bandung Selatan":
-            pass
-        elif self.dropdown.currentText() == "Jatinangor":
-            pass
+            if self.dropdown.currentText() == "ITB Ganesha":
+                place = area.Area(gane.x, gane.y, gane.zoom, gane.listKoordinat, gane.listNodeName, gane.matriks)
+                nodeList = func.initiateListNode(gane.listNodeName, gane.matriks)
+                graph = comp.Graph(gane.matriks, nodeList)
+                graph.convertCoordinatesToWAM(place.getListCoordinate())
+                input = graph
+                matrix = input.getMatrix()
+                for i in range(len(input.getListNode())):
+                    node.append(input.getNameNode(i))
+
+            elif self.dropdown.currentText() == "ITB Jatinangor":
+                place = area.Area(nangor.x, nangor.y, nangor.zoom, nangor.listKoordinat, nangor.listNodeName, nangor.matriks)
+                nodeList = func.initiateListNode(nangor.listNodeName, nangor.matriks)
+                graph = comp.Graph(nangor.matriks, nodeList)
+                graph.convertCoordinatesToWAM(place.getListCoordinate())
+                input = graph
+                matrix = input.getMatrix()
+                for i in range(len(input.getListNode())):
+                    node.append(input.getNameNode(i))
+
+            elif self.dropdown.currentText() == "Alun-Alun Bandung":
+                place = area.Area(alun.x, alun.y, alun.zoom, alun.listKoordinat, alun.listNodeName, alun.matriks)
+                nodeList = func.initiateListNode(alun.listNodeName, alun.matriks)
+                graph = comp.Graph(alun.matriks, nodeList)
+                graph.convertCoordinatesToWAM(place.getListCoordinate())
+                input = graph
+                matrix = input.getMatrix()
+                for i in range(len(input.getListNode())):
+                    node.append(input.getNameNode(i))
+
+            elif self.dropdown.currentText() == "Bandung Selatan":
+                pass
+            elif self.dropdown.currentText() == "Cilacap":
+                pass
 
     #ucs
     def chooseUCS(self):
@@ -255,7 +275,7 @@ class UI(QMainWindow):
             map = gmplot.GoogleMapPlotter(place.getCenter()[0], place.getCenter()[1], place.getZoom())
             for i in range(10):
                 for j in range(10):
-                    if(places.matriks[i][j] == 1):
+                    if(nangor.matriks[i][j] == 1):      # !!!!!! CHANGE MODULE HERE !!!!!!
                         latitude = [place.getListCoordinate()[i][0],place.getListCoordinate()[j][0]]
                         longitude = [place.getListCoordinate()[i][1],place.getListCoordinate()[j][1]]
                         map.scatter(latitude, longitude, 'yellow', size = 7, marker = False)
@@ -270,7 +290,7 @@ class UI(QMainWindow):
                 map.scatter(latitude, longitude, 'orange', size = 7, marker = True)
                 map.plot(latitude, longitude, 'red', edge_width = 3)
 
-            map.draw("mymap.html")
+            map.draw("./mymap.html")
 
             webbrowser.open_new_tab('file://' + os.path.realpath('mymap.html'))
         except:
