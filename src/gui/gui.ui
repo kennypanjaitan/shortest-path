@@ -36,7 +36,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(&quot;../gui/title.png&quot;);</string>
+     <string notr="true">image: url(&quot;./src/gui/images/title.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -52,7 +52,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(&quot;../gui/input.png&quot;);</string>
+     <string notr="true">image: url(&quot;./src/gui/images/input.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -71,7 +71,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(&quot;../gui/ucs.png&quot;);</string>
+     <string notr="true">image: url(&quot;./src/gui/images/ucs.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -90,7 +90,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(&quot;../gui/astar.png&quot;);</string>
+     <string notr="true">image: url(&quot;./src/gui/images/astar.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -109,7 +109,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(&quot;../gui/start.png&quot;);</string>
+     <string notr="true">image: url(&quot;./src/gui/images/start.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -125,7 +125,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(&quot;../gui/graph.png&quot;);</string>
+     <string notr="true">image: url(&quot;./src/gui/images/graph.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -141,7 +141,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(&quot;../gui/final.png&quot;);</string>
+     <string notr="true">background-image: url(&quot;./src/gui/images/final.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -157,7 +157,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(&quot;../gui/output.png&quot;);</string>
+     <string notr="true">image: url(&quot;./src/gui/images/output.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -183,7 +183,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(&quot;../gui/opengmap.png&quot;);</string>
+     <string notr="true">image: url(&quot;./src/gui/images/opengmap.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -202,7 +202,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(&quot;../gui/algorithm.png&quot;);</string>
+     <string notr="true">image: url(&quot;./src/gui/images/algorithm.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -218,7 +218,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(&quot;../gui/cost.png&quot;);</string>
+     <string notr="true">image: url(&quot;./src/gui/images/cost.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -258,7 +258,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(&quot;../gui/wallpaper.png&quot;);</string>
+     <string notr="true">background-image: url(&quot;./src/gui/images/wallpaper.png&quot;);</string>
     </property>
     <property name="text">
      <string/>
@@ -304,7 +304,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(&quot;../gui/path.png&quot;);</string>
+     <string notr="true">image: url(&quot;./src/gui/images/path.png&quot;);</string>
     </property>
     <property name="text">
      <string/>

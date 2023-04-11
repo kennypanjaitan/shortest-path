@@ -1,26 +1,24 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QFileDialog, QComboBox, QLineEdit, QWidget, QVBoxLayout, QDialog, QLabel, QPushButton
-from PyQt5.QtGui import QFont, QFontMetrics
-from PyQt5 import uic
 import sys
-sys.path.append('../src/')
-import algorithm
-import Components as comp
-import mapClass as map
-import itbNangor as nangor
-import function as func
-import parsing
 import webbrowser
 import gmplot
 import os
+
 import networkx as nx
+from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QFileDialog, QComboBox, QLineEdit, QWidget, QVBoxLayout, QDialog, QLabel, QPushButton
+from PyQt5.QtGui import QFont, QFontMetrics
+from PyQt5 import uic
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
+from src.core import algorithm as algo, Area as area, Components as comp, function as func, parsing as parse
+import src.places as places
+
+
 class UI(QMainWindow):
     def __init__(self):
         super(UI, self).__init__()
-        uic.loadUi("../gui/gui.ui", self)
+        uic.loadUi("./src/gui/gui.ui", self)
 
 
         #label input
@@ -75,7 +73,7 @@ class UI(QMainWindow):
             node = []
             file = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "Text files (*.txt)")
             if file:
-                input = parsing.parse_adjacency_matrix(file[0])
+                input = parse.parse_adjacency_matrix(file[0])
                 matrix = input.getMatrix()
                 for i in range(len(input.getListNode())):
                     node.append(input.getNameNode(i))
@@ -130,9 +128,9 @@ class UI(QMainWindow):
             global node
             global place
             node = []
-            place = map.Place(nangor.x, nangor.y, nangor.zoom, nangor.listKoordinat, nangor.listNodeName, nangor.matriks)
-            nodeList = func.initiateListNode(nangor.listNodeName, nangor.matriks)
-            graph = comp.Graph(nangor.matriks, nodeList)
+            place = area.Area(places.itbNangor.x, places.y, places.zoom, places.listKoordinat, places.listNodeName, places.matriks)
+            nodeList = func.initiateListNode(places.listNodeName, places.matriks)
+            graph = comp.Graph(places.matriks, nodeList)
             graph.convertCoordinatesToWAM(place.getListCoordinate())
             input = graph
             matrix = input.getMatrix()
@@ -151,7 +149,7 @@ class UI(QMainWindow):
         global cost
         global path
         try:
-            cost, path = algorithm.uniform_cost_search(input, self.start.text(), self.goal.text())
+            cost, path = algo.uniform_cost_search(input, self.start.text(), self.goal.text())
             font = QFont()
             font.setPointSize(10)
             self.cost.setFont(font)
@@ -204,7 +202,7 @@ class UI(QMainWindow):
         global cost
         global path
         try:
-            cost, path = algorithm.a_star(input, self.start.text(), self.goal.text())
+            cost, path = algo.a_star(input, self.start.text(), self.goal.text())
             font = QFont()
             font.setPointSize(10)
             self.cost.setFont(font)
@@ -257,7 +255,7 @@ class UI(QMainWindow):
             map = gmplot.GoogleMapPlotter(place.getCenter()[0], place.getCenter()[1], place.getZoom())
             for i in range(10):
                 for j in range(10):
-                    if(nangor.matriks[i][j] == 1):
+                    if(places.matriks[i][j] == 1):
                         latitude = [place.getListCoordinate()[i][0],place.getListCoordinate()[j][0]]
                         longitude = [place.getListCoordinate()[i][1],place.getListCoordinate()[j][1]]
                         map.scatter(latitude, longitude, 'yellow', size = 7, marker = False)
@@ -285,9 +283,13 @@ class UI(QMainWindow):
             layout.addWidget(button)
             dialog.exec_()
 
+def initiateUI():
+    app = QApplication(sys.argv)
+    window = UI()
+    sys.exit(app.exec_())
 
-if __name__ == "__main__":
-    import sys
+if __name__ == '__main__':
+    # import sys
     app = QApplication(sys.argv)
     window = UI()
     sys.exit(app.exec_())

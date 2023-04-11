@@ -1,15 +1,13 @@
 import heapq
-import Components as comp
-import numpy as np
+from src.core import Area, Components, function
 
 # UNIFORM COST SEARCH =====================================================================
-def uniform_cost_search(graph: comp.Graph, start, goal):
+def uniform_cost_search(graph: Components.Graph, start, goal):
     pqueue = [(0, (start, []))]     # queue of tuple (cost: int, (nodename: string, path: list of node name))
     explored = set()                # set of string (explored node)
     
     while pqueue:
         cost, (current, tempPath) = heapq.heappop(pqueue)
-
         # check if current node is goal
         if current == goal:
             return cost, (tempPath + [current])
@@ -43,7 +41,7 @@ def uniform_cost_search(graph: comp.Graph, start, goal):
 #    h(n) = edge(s) covered to goal node 
 #    Covering all node using BFS
 # */
-def heuristic(graph: comp.Graph, goal: str):
+def heuristic(graph: Components.Graph, goal: str):
     explored = set()                # set of string (explored node)
     value = 0                       # int (distance to goal (edge(s) covered))
     queueNode = [(goal, value)]     # queue of string (node name)
@@ -61,10 +59,20 @@ def heuristic(graph: comp.Graph, goal: str):
                 queueNode.append((neighbor, value + 1))
                 explored.add(neighbor)
     
+def heuristicMap(graph: Components.Graph, goal: str, place: Area.Area):
+    idxGoal = graph.getIdxNode(goal)
+    for i in range(len(graph.getMatrix())):
+        if graph.getNameNode(i) == goal:
+            graph.getNodeByIdx(i).setHeuristic(0)
+            continue
+        coorGoal = place.getListCoordinate()[idxGoal]
+        coorI = place.getListCoordinate()[i]
+        hn = function.haversineDistance(coorGoal[0], coorGoal[1], coorI[0], coorI[1])
+        graph.getNodeByIdx(i).setHeuristic(hn)
 
 # Main Algorithm
-def a_star(graph: comp.Graph, start: str, goal: str):
-    heuristic(graph, goal)                                                  # set heuristic value for each node
+def a_star(graph: Components.Graph, start: str, goal: str):
+    # heuristic(graph, goal)                                                  # set heuristic value for each node
 
     pqueue = [(0 + graph.getNode(start).getHeuristic(), (start, 0, []))]    # queue of tuple (f(n): int, (nodename: string, g(n): int, path: list of node name))
     explored = set()                                                        # set of string (explored node)
