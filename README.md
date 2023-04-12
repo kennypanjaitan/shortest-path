@@ -10,7 +10,7 @@ Implementasi Algoritma UCS dan A* untuk Menentukan Lintasan Terpendek
 4. [Technologies Used](#technologies-used)
 5. [How to Run](#how-to-run)
 6. [Project Status](#project-status)
-7. [Acknowledgements](aAcknowledgements)
+7. [Acknowledgements](#acknowledgements)
 
 ## Author
 | NIM | Nama |
