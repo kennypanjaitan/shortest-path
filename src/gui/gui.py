@@ -20,6 +20,11 @@ class UI(QMainWindow):
         super(UI, self).__init__()
         uic.loadUi("./src/gui/gui.ui", self)
 
+        # Initiate attributes
+        self.costResult = 0
+        self.pathResult = []
+        self.nodeNameUI = []
+        self.graphUI = None
 
         #label input
         self.input = self.findChild(QPushButton, "pushButton")
@@ -27,12 +32,12 @@ class UI(QMainWindow):
 
         #label ucs
         self.ucs = self.findChild(QPushButton, "pushButton_2")
-        self.ucs.clicked.connect(self.chooseUCS)
+        self.ucs.clicked.connect(self.on_ucs_clicked)
         self.ucs.clicked.connect(self.plot_graph)
 
         #label a*
         self.a = self.findChild(QPushButton, "pushButton_3")
-        self.a.clicked.connect(self.chooseA)
+        self.a.clicked.connect(self.on_a_clicked)
         self.a.clicked.connect(self.plot_graph)
 
         #dropdown
@@ -64,28 +69,28 @@ class UI(QMainWindow):
 
         self.show()
     
+    def showErrorMessage(self, message):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Error")
+        layout = QVBoxLayout(dialog)
+        layout.addWidget(QLabel(message))
+        button = QPushButton("OK", dialog)
+        button.clicked.connect(dialog.accept)
+        layout.addWidget(button)
+        dialog.exec_()
+        
     # input file
     def pushInputFile(self):
-        global input
-        global matrix
-        global node
+        self.nodeNameUI = []
         try :
-            node = []
-            file = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "Text files (*.txt)")
-            if file:
-                input = parse.parse_adjacency_matrix(file[0])
-                matrix = input.getMatrix()
-                for i in range(len(input.getListNode())):
-                    node.append(input.getNameNode(i))
+            inputFile = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "Text files (*.txt)")
+            if inputFile:
+                self.graphUI = parse.parse_adjacency_matrix(inputFile[0])
+                for i in range(len(self.graphUI.getListNode())):
+                    self.nodeNameUI.append(self.graphUI.getNameNode(i))
         except :
-            dialog = QDialog(self)
-            dialog.setWindowTitle("Error")
-            layout = QVBoxLayout(dialog)
-            layout.addWidget(QLabel("Please input file first"))
-            button = QPushButton("OK", dialog)
-            button.clicked.connect(dialog.accept)
-            layout.addWidget(button)
-            dialog.exec_()
+            self.showErrorMessage("Please input file first")
+            raise
 
     # input start
     def input(self):
@@ -99,19 +104,18 @@ class UI(QMainWindow):
 
     #plot graph
     def plot_graph(self):
-        global path
         Graph = nx.Graph()
         for i in Graph.nodes():
-            Graph.nodes[i]['label'] = node[i]
-        for i in range(len(node)):
-            for j in range(i+1, len(node)):
-                if matrix[i][j] != 0:
-                    Graph.add_edge(node[i], node[j], weight=matrix[i][j])
+            Graph.nodes[i]['label'] = self.nodeNameUI[i]
+        for i in range(len(self.nodeNameUI)):
+            for j in range(i+1, len(self.nodeNameUI)):
+                if self.graphUI.getMatrix()[i][j] != 0:
+                    Graph.add_edge(self.nodeNameUI[i], self.nodeNameUI[j], weight=self.graphUI.getMatrix()[i][j])
         fig = Figure(figsize=(10,5.3), dpi=100)
         canvas = FigureCanvas(fig)
         pos = nx.spring_layout(Graph)
         ax = fig.add_subplot(111)
-        edge_colors = ['red' if (u, v) in zip(path, path[1:]) else 'black' for u, v in Graph.edges()]
+        edge_colors = ['red' if (u, v) in zip(self.pathResult, self.pathResult[1:]) else 'black' for u, v in Graph.edges()]
         nx.draw_networkx_edge_labels(Graph, pos, edge_labels=nx.get_edge_attributes(Graph, 'weight'))
         nx.draw(Graph, pos, with_labels=True, node_size=300, node_color='green', edge_color=edge_colors, font_size=10, ax=ax)
         plt.axis('off')
@@ -119,56 +123,28 @@ class UI(QMainWindow):
         canvas.show()
 
     def initiateMapToGraph(self, place: area.Area):
-        global node
-        global matrix
+        self.nodeNameUI = []
         nodeList = func.initiateListNode(place.getListName(), place.getMatrix())
-        graph = comp.Graph(place.getMatrix(), nodeList)
-        graph.convertCoordinatesToWAM(place.getListCoordinate())
-        matrix = graph.getMatrix()
-        for i in range(len(graph.getListNode())):
-            node.append(graph.getNameNode(i))
+        self.graphUI = comp.Graph(place.getMatrix(), nodeList)
+        self.graphUI.convertCoordinatesToWAM(place.getListCoordinate())
+        for i in range(len(self.graphUI.getListNode())):
+            self.nodeNameUI.append(self.graphUI.getNameNode(i))
     
     #dropdown
     def dropdownChanged(self):
         if self.dropdown.currentText() == "Input File":
             pass
         else:
-            global input
-            global matrix
-            global node
             global place
-            node = []
 
             if self.dropdown.currentText() == "ITB Ganesha":
                 place = area.Area(gane.x, gane.y, gane.zoom, gane.listKoordinat, gane.listNodeName, gane.matriks)
-                # self.initiateMapToGraph(place)
-                # nodeList = func.initiateListNode(gane.listNodeName, gane.matriks)
-                # graph = comp.Graph(gane.matriks, nodeList)
-                # graph.convertCoordinatesToWAM(place.getListCoordinate())
-                # input = graph
-                # matrix = input.getMatrix()
-                # for i in range(len(input.getListNode())):
-                #     node.append(input.getNameNode(i))
 
             elif self.dropdown.currentText() == "ITB Jatinangor":
                 place = area.Area(nangor.x, nangor.y, nangor.zoom, nangor.listKoordinat, nangor.listNodeName, nangor.matriks)
-                # nodeList = func.initiateListNode(nangor.listNodeName, nangor.matriks)
-                # graph = comp.Graph(nangor.matriks, nodeList)
-                # graph.convertCoordinatesToWAM(place.getListCoordinate())
-                # input = graph
-                # matrix = input.getMatrix()
-                # for i in range(len(input.getListNode())):
-                #     node.append(input.getNameNode(i))
 
             elif self.dropdown.currentText() == "Alun-Alun Bandung":
                 place = area.Area(alun.x, alun.y, alun.zoom, alun.listKoordinat, alun.listNodeName, alun.matriks)
-                # nodeList = func.initiateListNode(alun.listNodeName, alun.matriks)
-                # graph = comp.Graph(alun.matriks, nodeList)
-                # graph.convertCoordinatesToWAM(place.getListCoordinate())
-                # input = graph
-                # matrix = input.getMatrix()
-                # for i in range(len(input.getListNode())):
-                #     node.append(input.getNameNode(i))
 
             elif self.dropdown.currentText() == "Bandung Selatan":
                 pass
@@ -179,10 +155,11 @@ class UI(QMainWindow):
 
     #ucs
     def chooseUCS(self):
-        global cost
-        global path
+        cost = 0
+        path = []
         try:
-            cost, path = algo.uniform_cost_search(input, self.start.text(), self.goal.text())
+            cost, path = algo.uniform_cost_search(self.graphUI, self.start.text(), self.goal.text())
+
             font = QFont()
             font.setPointSize(10)
             self.cost.setFont(font)
@@ -190,52 +167,30 @@ class UI(QMainWindow):
             self.path.setFont(font)
             self.path.setText(str(path))
             self.path.setAdjustSize(True)
-
-            return cost, path
+        
         except:
             if self.start.text() == "":
-                dialog = QDialog(self)
-                dialog.setWindowTitle("Error")
-                layout = QVBoxLayout(dialog)
-                layout.addWidget(QLabel("Start is empty"))
-                button = QPushButton("OK", dialog)
-                button.clicked.connect(dialog.accept)
-                layout.addWidget(button)
-                dialog.exec_()
-            elif self.start.text() not in node:
-                dialog = QDialog(self)
-                dialog.setWindowTitle("Error")
-                layout = QVBoxLayout(dialog)
-                layout.addWidget(QLabel("Start is not in the node"))
-                button = QPushButton("OK", dialog)
-                button.clicked.connect(dialog.accept)
-                layout.addWidget(button)
-                dialog.exec_()
+                self.showErrorMessage("Start is empty")
+
+            elif self.start.text() not in self.nodeNameUI:
+                self.showErrorMessage("Start is not in the node")
+
             if self.goal.text() == "":
-                dialog = QDialog(self)
-                dialog.setWindowTitle("Error")
-                layout = QVBoxLayout(dialog)
-                layout.addWidget(QLabel("Goal is empty"))
-                button = QPushButton("OK", dialog)
-                button.clicked.connect(dialog.accept)
-                layout.addWidget(button)
-                dialog.exec_()
-            elif self.goal.text() not in node:
-                dialog = QDialog(self)
-                dialog.setWindowTitle("Error")
-                layout = QVBoxLayout(dialog)
-                layout.addWidget(QLabel("Goal is not in the node"))
-                button = QPushButton("OK", dialog)
-                button.clicked.connect(dialog.accept)
-                layout.addWidget(button)
-                dialog.exec_()
+                self.showErrorMessage("Goal is empty")
+
+            elif self.goal.text() not in self.nodeNameUI:
+                self.showErrorMessage("Goal is not in the node")
+        
+        return cost, path
+            
 
     #astar
     def chooseA(self):
-        global cost
-        global path
+        cost = 0
+        path = []
         try:
-            cost, path = algo.a_star(input, self.start.text(), self.goal.text())
+            cost, path = algo.a_star(self.graphUI, self.start.text(), self.goal.text())
+
             font = QFont()
             font.setPointSize(10)
             self.cost.setFont(font)
@@ -243,78 +198,59 @@ class UI(QMainWindow):
             self.path.setFont(font)
             self.path.setText(str(path))
             self.path.setAdjustSize(True)
-            return cost, path
+        
         except:
             if self.start.text() == "":
-                dialog = QDialog(self)
-                dialog.setWindowTitle("Error")
-                layout = QVBoxLayout(dialog)
-                layout.addWidget(QLabel("Start is empty"))
-                button = QPushButton("OK", dialog)
-                button.clicked.connect(dialog.accept)
-                layout.addWidget(button)
-                dialog.exec_()
-            elif self.start.text() not in node:
-                dialog = QDialog(self)
-                dialog.setWindowTitle("Error")
-                layout = QVBoxLayout(dialog)
-                layout.addWidget(QLabel("Start is not in the node"))
-                button = QPushButton("OK", dialog)
-                button.clicked.connect(dialog.accept)
-                layout.addWidget(button)
-                dialog.exec_()
-            if self.goal.text() == "":
-                dialog = QDialog(self)
-                dialog.setWindowTitle("Error")
-                layout = QVBoxLayout(dialog)
-                layout.addWidget(QLabel("Goal is empty"))
-                button = QPushButton("OK", dialog)
-                button.clicked.connect(dialog.accept)
-                layout.addWidget(button)
-                dialog.exec_()
-            elif self.goal.text() not in node:
-                dialog = QDialog(self)
-                dialog.setWindowTitle("Error")
-                layout = QVBoxLayout(dialog)
-                layout.addWidget(QLabel("Goal is not in the node"))
-                button = QPushButton("OK", dialog)
-                button.clicked.connect(dialog.accept)
-                layout.addWidget(button)
-                dialog.exec_()
+                self.showErrorMessage("Start is empty")
 
-        # show gmap
+            elif self.start.text() not in self.nodeNameUI:
+                self.showErrorMessage("Start is not in the node")
+
+            if self.goal.text() == "":
+                self.showErrorMessage("Goal is empty")
+
+            elif self.goal.text() not in self.nodeNameUI:
+                self.showErrorMessage("Goal is not in the node")
+        
+        return cost, path
+
+    # Assign costResult and pathResult on click event
+    def on_ucs_clicked(self):
+        self.costResult, self.pathResult = self.chooseUCS()
+        print(self.costResult, self.pathResult)
+
+    def on_a_clicked(self):
+        self.costResult, self.pathResult = self.chooseA()
+
+    # show gmap
     def showGmap(self):
         try:
-            map = gmplot.GoogleMapPlotter(place.getCenter()[0], place.getCenter()[1], place.getZoom())
-            for i in range(len(input.getMatrix())):
-                for j in range(len(input.getMatrix())):
-                    if(input.getMatrix()[i][j] > 0):      # !!!!!! CHANGE MODULE HERE !!!!!!
+            gmap = gmplot.GoogleMapPlotter(place.getCenter()[0], place.getCenter()[1], place.getZoom())
+            for i in range(len(self.graphUI.getMatrix())):
+                for j in range(len(self.graphUI.getMatrix())):
+                    if(self.graphUI.getMatrix()[i][j] > 0):
                         latitude = [place.getListCoordinate()[i][0],place.getListCoordinate()[j][0]]
                         longitude = [place.getListCoordinate()[i][1],place.getListCoordinate()[j][1]]
-                        map.scatter(latitude, longitude, 'yellow', size = 7, marker = False)
-                        map.plot(latitude, longitude, 'blue', edge_width = 3)
-            for k in range(place.getMatrix()):
-                map.text(place.getListCoordinate()[k][0], place.getListCoordinate()[k][1], place.getListName()[k])
-            for i in range(len(path)-1):
-                x = place.getListName().index(path[i])
-                y = place.getListName().index(path[i+1])
+                        gmap.scatter(latitude, longitude, 'yellow', size = 7, marker = False)
+                        gmap.plot(latitude, longitude, 'blue', edge_width = 3)
+
+            for k in range(len(place.getMatrix())):
+                gmap.text(place.getListCoordinate()[k][0], place.getListCoordinate()[k][1], place.getListName()[k])
+
+            for i in range(len(self.pathResult)-1):
+                x = place.getListName().index(self.pathResult[i])
+                y = place.getListName().index(self.pathResult[i+1])
                 latitude = [place.getListCoordinate()[x][0],place.getListCoordinate()[y][0]]
                 longitude = [place.getListCoordinate()[x][1],place.getListCoordinate()[y][1]]
-                map.scatter(latitude, longitude, 'orange', size = 7, marker = True)
-                map.plot(latitude, longitude, 'red', edge_width = 3)
+                gmap.scatter(latitude, longitude, 'orange', size = 7, marker = True)
+                gmap.plot(latitude, longitude, 'red', edge_width = 3)
 
-            map.draw("./mymap.html")
+            gmap.draw("./mymap.html")
 
             webbrowser.open_new_tab('file://' + os.path.realpath('mymap.html'))
         except:
-            dialog = QDialog(self)
-            dialog.setWindowTitle("Error")
-            layout = QVBoxLayout(dialog)
-            layout.addWidget(QLabel("Please choose the algorithm"))
-            button = QPushButton("OK", dialog)
-            button.clicked.connect(dialog.accept)
-            layout.addWidget(button)
-            dialog.exec_()
+            self.showErrorMessage("Please choose the algorithm")
+            raise
 
 def initiateUI():
     app = QApplication(sys.argv)
