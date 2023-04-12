@@ -153,13 +153,8 @@ class UI(QMainWindow):
                 pass
             elif self.dropdown.currentText() == "Cilacap":
                 place = area.Area(cilacap.x, cilacap.y, cilacap.zoom, cilacap.listKoordinat, cilacap.listNodeName, cilacap.matriks)
-                nodeList = func.initiateListNode(cilacap.listNodeName, cilacap.matriks)
-                graph = comp.Graph(cilacap.matriks, nodeList)
-                graph.convertCoordinatesToWAM(place.getListCoordinate())
-                input = graph
-                matrix = input.getMatrix()
-                for i in range(len(input.getListNode())):
-                    node.append(input.getNameNode(i))
+
+            self.initiateMapToGraph(place)
                 
     #show map
     def showmap(self):
