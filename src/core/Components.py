@@ -1,5 +1,5 @@
-import numpy as np
-import function as func
+from src.core import function as func
+
 class Node:
     # ATRIBUTTES -----------------------------
     # name: String

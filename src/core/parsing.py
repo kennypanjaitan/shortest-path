@@ -1,5 +1,4 @@
-import Components as comp
-import function as func
+from src.core import Components, function
 
 def parse_adjacency_matrix(file_path):
     nodeList = []                       # list of node
@@ -34,8 +33,8 @@ def parse_adjacency_matrix(file_path):
             return [], []
         
         # convert list of string to list of node
-        nodeList = func.initiateListNode(nodeName, adjacency_matrix)
+        nodeList = function.initiateListNode(nodeName, adjacency_matrix)
     
     # initialize Graph
-    graf = comp.Graph(adjacency_matrix, nodeList)
+    graf = Components.Graph(adjacency_matrix, nodeList)
     return graf

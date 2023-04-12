@@ -1,5 +1,6 @@
-import Components as comp
 import numpy as np
+from src.core import Components as comp
+
 
 # Initiate list of node
 # /* listNodeName: list of string (node name)

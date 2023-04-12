@@ -1,4 +1,4 @@
-class Place:
+class Area:
     # ATRIBUTTES -----------------------------
     # center: tuple (x, y) center coordinate of the map
     # zoom: Int (zoom level)
