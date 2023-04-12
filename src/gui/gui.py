@@ -206,8 +206,6 @@ class UI(QMainWindow):
             self.widget2.setWindowTitle("Input File")
             self.widget2.show()
 
-            self.initiateMapToGraph(place)
-
     #ucs
     def chooseUCS(self):
         cost = 0
