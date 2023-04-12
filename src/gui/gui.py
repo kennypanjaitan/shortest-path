@@ -12,7 +12,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 from src.core import algorithm as algo, Area as area, Components as comp, function as func, parsing as parse
-from src.places import itbBdg as gane, itbNangor as nangor, alunalun as alun
+from src.places import itbBdg as gane, itbNangor as nangor, alunalun as alun, cilacap as cilacap
 
 
 class UI(QMainWindow):
@@ -60,6 +60,7 @@ class UI(QMainWindow):
         # showmap
         self.map = self.findChild(QPushButton, "pushButton_5")
         self.map.clicked.connect(self.showmap)
+        self.widget2 = QWidget(self)
 
         # path
         self.path = self.findChild(QLabel, "label_11")
@@ -164,44 +165,58 @@ class UI(QMainWindow):
             elif self.dropdown.currentText() == "Bandung Selatan":
                 pass
             elif self.dropdown.currentText() == "Cilacap":
-                pass
+                place = area.Area(cilacap.x, cilacap.y, cilacap.zoom, cilacap.listKoordinat, cilacap.listNodeName, cilacap.matriks)
+                nodeList = func.initiateListNode(cilacap.listNodeName, cilacap.matriks)
+                graph = comp.Graph(cilacap.matriks, nodeList)
+                graph.convertCoordinatesToWAM(place.getListCoordinate())
+                input = graph
+                matrix = input.getMatrix()
+                for i in range(len(input.getListNode())):
+                    node.append(input.getNameNode(i))
+                
     #show map
     def showmap(self):
         if self.dropdown.currentText() == "ITB Ganesha":
-            self.widget = QWidget()
-            self.widget.resize(800, 600)
-            label = QLabel(self.widget)
+            self.widget2 = QWidget()
+            self.widget2.resize(800, 600)
+            label = QLabel(self.widget2)
             Gane = "ITB Ganesha\n 1. Gerbang Utama\n 2. Gedung Sipil\n 3. Gedung CIBE\n 4. CC Barat\n 5. CC Timur\n 6. Lapangan Cinta\n 7. Gedung SAPPK\n 8. Gedung SR \n 9. Sekretariat IMG\n 10. Gedung Lingkungan\n 11. GKU Barat\n 12. Labtek VII\n 13. Labtek III\n 14. Gedung Kimia\n 15. Gedung FTTM\n 16. Gedung FITB\n 17. Gedung CAS\n 18. Gedung CRCS\n 19. Perpustakaan\n 20. Gedung SBM\n 21. Sunken Court\n 22. Pusat Gema\n 23. Plaza Widya\n 24. Aula Barat-Timur"
             label.setText(str(Gane))
-            self.widget.setWindowTitle("ITB Ganesha")
-            self.widget.show()
+            self.widget2.setWindowTitle("ITB Ganesha")
+            self.widget2.show()
         elif self.dropdown.currentText() == "ITB Jatinangor":
-            self.widget = QWidget()
-            self.widget.resize(500, 300)
-            label = QLabel(self.widget)
+            self.widget2 = QWidget()
+            self.widget2.resize(500, 300)
+            label = QLabel(self.widget2)
             Nangor = "ITB Jatinangor\n 1. Gerbang Utama\n 2. Bundaran\n 3. GKU\n 4. Water Treatment Plan\n 5. Asrama Mahasiswa\n 6. GSG\n 7. Koica\n 8. Rektorat\n 9. GKU 1\n 10. Asrama Dosen"
             label.setText(str(Nangor))
-            self.widget.setWindowTitle("ITB Jatinangor")
-            self.widget.show()
+            self.widget2.setWindowTitle("ITB Jatinangor")
+            self.widget2.show()
         elif self.dropdown.currentText() == "Alun-Alun Bandung":
-            self.widget = QWidget()
-            self.widget.resize(800, 600)
-            label = QLabel(self.widget)
+            self.widget2 = QWidget()
+            self.widget2.resize(800, 600)
+            label = QLabel(self.widget2)
             Alun = "Alun-Alun Bandung\n 1. Paskal\n 2. Parapan Kebon Jati\n 3. Sudirman\n 4. Stasiun Bandung\n 5. Cibadak\n 6. Astana Anyar\n 7. Pasir Koja\n 8. Norsefiicden\n 9. Otto Iskandar Dinata\n 10. Pungkur\n 11. Patung Tentara Pelajar\n 12. Braga Citywalk\n 13. Braga\n 14. Air Mancur Asia Afrika\n 15. Jalan ABC\n 16. Asia Afrika\n 17. Mural Asia Afrika\n 18. Jalan Homan\n 19. Alun-Alun Bandung\n 20. Pendopo Kota Bandung\n 21. Pasar Baru"
             label.setText(str(Alun))
-            self.widget.setWindowTitle("Alun-Alun Bandung")
-            self.widget.show()
+            self.widget2.setWindowTitle("Alun-Alun Bandung")
+            self.widget2.show()
         elif self.dropdown.currentText() == "Bandung Selatan":
             pass
         elif self.dropdown.currentText() == "Cilacap":
-            pass
+            self.widget2 = QWidget()
+            self.widget2.resize(500, 300)
+            label = QLabel(self.widget2)
+            Cilacap = "Cilacap\n 1. Pelabuhan Penyebrangan Sleko\n 2. Pelabuhan Internasional Tanjung Intan\n 3. Cilacap Town Square\n 4. Stasiun Cilacap\n 5. Pendopo Wijaya Kusuma Sakti\n 6. Masjid Agung Darussalam\n 7. Soedirman Soccer Field\n 8. Tugu Nelayan\n 9. Klenteng Lam Tjeng Kiong"
+            label.setText(str(Cilacap))
+            self.widget2.setWindowTitle("Cilacap")
+            self.widget2.show()
         elif self.dropdown.currentText() == "Input File":
-            self.widget = QWidget()
-            self.widget.resize(100,100)
-            label = QLabel(self.widget)
+            self.widget2 = QWidget()
+            self.widget2.resize(100,100)
+            label = QLabel(self.widget2)
             label.setText("You Choose Input File")
-            self.widget.setWindowTitle("Input File")
-            self.widget.show()
+            self.widget2.setWindowTitle("Input File")
+            self.widget2.show()
 
     #ucs
     def chooseUCS(self):
