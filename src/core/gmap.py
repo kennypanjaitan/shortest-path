@@ -1,5 +1,5 @@
 import gmplot
-import places.alunalun as nangor
+from src.places import alunalun as nangor
 import os
 import webbrowser
 import Components as comp

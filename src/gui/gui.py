@@ -118,6 +118,16 @@ class UI(QMainWindow):
         canvas.setParent(self.widget)
         canvas.show()
 
+    def initiateMapToGraph(self, place: area.Area):
+        global node
+        global matrix
+        nodeList = func.initiateListNode(place.getListName(), place.getMatrix())
+        graph = comp.Graph(place.getMatrix(), nodeList)
+        graph.convertCoordinatesToWAM(place.getListCoordinate())
+        matrix = graph.getMatrix()
+        for i in range(len(graph.getListNode())):
+            node.append(graph.getNameNode(i))
+    
     #dropdown
     def dropdownChanged(self):
         if self.dropdown.currentText() == "Input File":
@@ -131,38 +141,41 @@ class UI(QMainWindow):
 
             if self.dropdown.currentText() == "ITB Ganesha":
                 place = area.Area(gane.x, gane.y, gane.zoom, gane.listKoordinat, gane.listNodeName, gane.matriks)
-                nodeList = func.initiateListNode(gane.listNodeName, gane.matriks)
-                graph = comp.Graph(gane.matriks, nodeList)
-                graph.convertCoordinatesToWAM(place.getListCoordinate())
-                input = graph
-                matrix = input.getMatrix()
-                for i in range(len(input.getListNode())):
-                    node.append(input.getNameNode(i))
+                # self.initiateMapToGraph(place)
+                # nodeList = func.initiateListNode(gane.listNodeName, gane.matriks)
+                # graph = comp.Graph(gane.matriks, nodeList)
+                # graph.convertCoordinatesToWAM(place.getListCoordinate())
+                # input = graph
+                # matrix = input.getMatrix()
+                # for i in range(len(input.getListNode())):
+                #     node.append(input.getNameNode(i))
 
             elif self.dropdown.currentText() == "ITB Jatinangor":
                 place = area.Area(nangor.x, nangor.y, nangor.zoom, nangor.listKoordinat, nangor.listNodeName, nangor.matriks)
-                nodeList = func.initiateListNode(nangor.listNodeName, nangor.matriks)
-                graph = comp.Graph(nangor.matriks, nodeList)
-                graph.convertCoordinatesToWAM(place.getListCoordinate())
-                input = graph
-                matrix = input.getMatrix()
-                for i in range(len(input.getListNode())):
-                    node.append(input.getNameNode(i))
+                # nodeList = func.initiateListNode(nangor.listNodeName, nangor.matriks)
+                # graph = comp.Graph(nangor.matriks, nodeList)
+                # graph.convertCoordinatesToWAM(place.getListCoordinate())
+                # input = graph
+                # matrix = input.getMatrix()
+                # for i in range(len(input.getListNode())):
+                #     node.append(input.getNameNode(i))
 
             elif self.dropdown.currentText() == "Alun-Alun Bandung":
                 place = area.Area(alun.x, alun.y, alun.zoom, alun.listKoordinat, alun.listNodeName, alun.matriks)
-                nodeList = func.initiateListNode(alun.listNodeName, alun.matriks)
-                graph = comp.Graph(alun.matriks, nodeList)
-                graph.convertCoordinatesToWAM(place.getListCoordinate())
-                input = graph
-                matrix = input.getMatrix()
-                for i in range(len(input.getListNode())):
-                    node.append(input.getNameNode(i))
+                # nodeList = func.initiateListNode(alun.listNodeName, alun.matriks)
+                # graph = comp.Graph(alun.matriks, nodeList)
+                # graph.convertCoordinatesToWAM(place.getListCoordinate())
+                # input = graph
+                # matrix = input.getMatrix()
+                # for i in range(len(input.getListNode())):
+                #     node.append(input.getNameNode(i))
 
             elif self.dropdown.currentText() == "Bandung Selatan":
                 pass
             elif self.dropdown.currentText() == "Cilacap":
                 pass
+
+            self.initiateMapToGraph(place)
 
     #ucs
     def chooseUCS(self):
@@ -273,14 +286,14 @@ class UI(QMainWindow):
     def showGmap(self):
         try:
             map = gmplot.GoogleMapPlotter(place.getCenter()[0], place.getCenter()[1], place.getZoom())
-            for i in range(10):
-                for j in range(10):
-                    if(nangor.matriks[i][j] == 1):      # !!!!!! CHANGE MODULE HERE !!!!!!
+            for i in range(len(input.getMatrix())):
+                for j in range(len(input.getMatrix())):
+                    if(input.getMatrix()[i][j] > 0):      # !!!!!! CHANGE MODULE HERE !!!!!!
                         latitude = [place.getListCoordinate()[i][0],place.getListCoordinate()[j][0]]
                         longitude = [place.getListCoordinate()[i][1],place.getListCoordinate()[j][1]]
                         map.scatter(latitude, longitude, 'yellow', size = 7, marker = False)
                         map.plot(latitude, longitude, 'blue', edge_width = 3)
-            for k in range(10):
+            for k in range(place.getMatrix()):
                 map.text(place.getListCoordinate()[k][0], place.getListCoordinate()[k][1], place.getListName()[k])
             for i in range(len(path)-1):
                 x = place.getListName().index(path[i])
