@@ -4,6 +4,13 @@ Tugas Kecil 3 IF2211 Strategi Algoritma
 Implementasi Algoritma UCS dan A* untuk Menentukan Lintasan Terpendek
 
 ## Table of Contents
+1. [Author](#author)
+2. [Data Structure](#data-structure)
+3. [General Informations](#general-informations)
+4. [Technologies Used](#technologies-used)
+5. [How to Run](#how-to-run)
+6. [Project Status](#project-status)
+7. [Acknowledgements](aAcknowledgements)
 
 ## Author
 | NIM | Nama |
