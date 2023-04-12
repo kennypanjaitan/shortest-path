@@ -12,7 +12,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 from src.core import algorithm as algo, Area as area, Components as comp, function as func, parsing as parse
-from src.places import itbBdg as gane, itbNangor as nangor, alunalun as alun, cilacap as cilacap
+from src.places import itbBdg as gane, itbNangor as nangor, alunalun as alun, cilacap as cilacap, buahBatu as batu
 
 
 class UI(QMainWindow):
@@ -42,7 +42,7 @@ class UI(QMainWindow):
 
         #dropdown
         self.dropdown = self.findChild(QComboBox, "comboBox_2")
-        self.dropdown.addItems(["Input File", "ITB Ganesha", "ITB Jatinangor", "Alun-Alun Bandung", "Bandung Selatan", "Cilacap"])
+        self.dropdown.addItems(["Input File", "ITB Ganesha", "ITB Jatinangor", "Alun-Alun Bandung", "Buah Batu", "Cilacap"])
         self.dropdown.currentIndexChanged.connect(self.dropdownChanged)
 
         #graph
@@ -149,8 +149,9 @@ class UI(QMainWindow):
             elif self.dropdown.currentText() == "Alun-Alun Bandung":
                 place = area.Area(alun.x, alun.y, alun.zoom, alun.listKoordinat, alun.listNodeName, alun.matriks)
 
-            elif self.dropdown.currentText() == "Bandung Selatan":
-                pass
+            elif self.dropdown.currentText() == "Buah Batu":
+                place = area.Area(batu.x, batu.y, batu.zoom, batu.listKoordinat, batu.listNodeName, batu.matriks)
+                
             elif self.dropdown.currentText() == "Cilacap":
                 place = area.Area(cilacap.x, cilacap.y, cilacap.zoom, cilacap.listKoordinat, cilacap.listNodeName, cilacap.matriks)
 
@@ -182,8 +183,14 @@ class UI(QMainWindow):
             label.setText(str(Alun))
             self.widget2.setWindowTitle("Alun-Alun Bandung")
             self.widget2.show()
-        elif self.dropdown.currentText() == "Bandung Selatan":
-            pass
+        elif self.dropdown.currentText() == "Buah Batu":
+            self. widget2 = QWidget()
+            self.widget2.resize(800, 600)
+            label = QLabel(self.widget2)
+            Batu = "Buah batu\n 1. Jalan Neptunus Barat II - III\n 2. Jalan Neptunus Barat III - V\n 3. Jalan Neptunus Barat IV - Neptunus Raya Barat\n 4. Jalan Neptunus Barat VI - Neptunus Raya Barat\n 5. Jalan Neptunus Barat III - Neptunus Raya Barat\n 6. Jalan Neptunus Barat II - Neptunus Raya Barat - Neptunus Tengah\n 6. Jalan Neptunus Barat I - Neptunus Barat - Neptunus Raya\n 7. Jalan Neptunus Tengah II - Neptunus Tengah"
+            label.setText(str(Batu))
+            self.widget2.setWindowTitle("Buah Batu")
+            self.widget2.show()
         elif self.dropdown.currentText() == "Cilacap":
             self.widget2 = QWidget()
             self.widget2.resize(500, 300)
