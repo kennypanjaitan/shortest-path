@@ -273,14 +273,14 @@ class UI(QMainWindow):
     def showGmap(self):
         try:
             map = gmplot.GoogleMapPlotter(place.getCenter()[0], place.getCenter()[1], place.getZoom())
-            for i in range(len(place.getListCoordinate())):
-                for j in range(len(place.getListCoordinate())):
+            for i in range(10):
+                for j in range(10):
                     if(nangor.matriks[i][j] == 1):
                         latitude = [place.getListCoordinate()[i][0],place.getListCoordinate()[j][0]]
                         longitude = [place.getListCoordinate()[i][1],place.getListCoordinate()[j][1]]
                         map.scatter(latitude, longitude, 'yellow', size = 7, marker = False)
                         map.plot(latitude, longitude, 'blue', edge_width = 3)
-            for k in range(len(place.getListCoordinate())):
+            for k in range(10):
                 map.text(place.getListCoordinate()[k][0], place.getListCoordinate()[k][1], place.getListName()[k])
             for i in range(len(path)-1):
                 x = place.getListName().index(path[i])
