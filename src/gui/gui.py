@@ -174,6 +174,8 @@ class UI(QMainWindow):
             font.setPointSize(10)
             self.cost.setFont(font)
             self.cost.setText(str(cost))
+            path_font = QFont()
+            path_font.setPointSize(8)
             self.path.setFont(font)
             self.path.setText(str(path))
             self.path.setAdjustSize(True)
