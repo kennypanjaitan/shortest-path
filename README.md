@@ -41,6 +41,7 @@ Implementasi Algoritma UCS dan A* untuk Menentukan Lintasan Terpendek
 |         ├───itbBdg.py
 |         ├───itbNangor.py
 |         ├───cilacap.py
+|         └───buahBatu.py
 │
 ├───main.py
 │      
@@ -69,7 +70,7 @@ Program ini merupakan program pencari lintasan terpendek dalam graph dan peta de
 2. Run file `py main.py`
 
 ## Project Status
-Project Status: On Going
+Project Status: Completed
 
 ## Acknowledgements
 - Program ini dibuat untuk memenuhi Tugas Kecil 3 IF2211 Strategi Algoritma
