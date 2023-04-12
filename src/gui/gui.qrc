@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="bg">
+    <file>images/show.png</file>
     <file>cost.png</file>
     <file>opengmap.png</file>
     <file>astar.png</file>
