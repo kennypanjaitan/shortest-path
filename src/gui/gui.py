@@ -93,7 +93,6 @@ class UI(QMainWindow):
                     self.nodeNameUI.append(self.graphUI.getNameNode(i))
         except :
             self.showErrorMessage("Please input file first")
-            raise
 
     # input start
     def input(self):
@@ -247,6 +246,11 @@ class UI(QMainWindow):
         cost = 0
         path = []
         try:
+            if self.dropdown.currentText() == "Input File":
+                algo.heuristic(self.graphUI, self.goal.text())
+            else:
+                algo.heuristicMap(self.graphUI, self.goal.text(), place)
+                
             cost, path = algo.a_star(self.graphUI, self.start.text(), self.goal.text())
 
             font = QFont()
@@ -275,7 +279,6 @@ class UI(QMainWindow):
     # Assign costResult and pathResult on click event
     def on_ucs_clicked(self):
         self.costResult, self.pathResult = self.chooseUCS()
-        print(self.costResult, self.pathResult)
 
     def on_a_clicked(self):
         self.costResult, self.pathResult = self.chooseA()
@@ -308,7 +311,6 @@ class UI(QMainWindow):
             webbrowser.open_new_tab('file://' + os.path.realpath('mymap.html'))
         except:
             self.showErrorMessage("Please choose the algorithm")
-            raise
 
 def initiateUI():
     app = QApplication(sys.argv)

@@ -72,8 +72,6 @@ def heuristicMap(graph: Components.Graph, goal: str, place: Area.Area):
 
 # Main Algorithm
 def a_star(graph: Components.Graph, start: str, goal: str):
-    # heuristic(graph, goal)                                                  # set heuristic value for each node
-
     pqueue = [(0 + graph.getNode(start).getHeuristic(), (start, 0, []))]    # queue of tuple (f(n): int, (nodename: string, g(n): int, path: list of node name))
     explored = set()                                                        # set of string (explored node)
     
