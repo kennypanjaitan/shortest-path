@@ -1,24 +1,27 @@
-# Tucil3_13521006_13521023
->Tugas Kecil 3 IF2211 Strategi Algoritma
+# Shortest Path Finder
+> Third mini-project for Algorithm Strategies (IF2211) course from Informatics Engineering, Bandung Institute of Technology.
 
-Implementasi Algoritma UCS dan A* untuk Menentukan Lintasan Terpendek
+<br>
+
+## Contributors
+| NIM | Name |
+|:---:|:----:|
+|13521006| [Azmi Hasna Zahrani](https://github.com/goodgirlwannabe)|
+|13521023| [Kenny Benaya Nathan](https://github.com/kennypanjaitan)|
 
 ## Table of Contents
-1. [Author](#author)
-2. [Data Structure](#data-structure)
-3. [General Informations](#general-informations)
-4. [Technologies Used](#technologies-used)
-5. [How to Run](#how-to-run)
-6. [Project Status](#project-status)
-7. [Acknowledgements](#acknowledgements)
+- [General Informations](#general-informations)
+- [Project Structure](#project-structure)
+- [Technologies Used](#technologies-used)
+- [Features](#features)
+- [How to Run](#how-to-run)
+- [Project Status](#project-status)
+- [Acknowledgements](#acknowledgements)
 
-## Author
-| NIM | Nama |
-|:---:|:----:|
-|13521006| Azmi Hasna Zahrani|
-|13521023| Kenny Benaya Nathan|
+## General Informations
+A program which finds the shortest path from two points in a graph. This program applies Uniform-Cost Search and A* algorithm. This program is written in Python and uses a simple GUI as its interface. The program can receive input from a .txt file containing a weighted adjacency matrix and a list of nodes or a specific map from the available locations. The program will show the distance, the path of the shortest path, and the visualization of the graph. The visualization of the shortest path from a specific locations can also be seen in Google Maps with the help of gmplot package. 
 
-## Data Structure
+## Project Structure
 ```
 ├───doc                                 # Documentation
 |    ├───Tucil3_13521006_13521023.pdf
@@ -47,36 +50,47 @@ Implementasi Algoritma UCS dan A* untuk Menentukan Lintasan Terpendek
 │
 ├───main.py                             # Main Program
 ├───mymap.html                          # Map Output
-├───test.txt                            # Matrix Data
+├───matrix.txt                          # Matrix Data
 └───README.md
 ```
 
-## General Informations
-Program ini merupakan program pencari lintasan terpendek dalam graph dan peta dengan mengimplementasikan algoritma Uniform-Cost Search dan algoritma A*. Program ini ditulis dalam bahasa Python serta menggunakan GUI sederhana sebagai interfacenya. Pencarian lintasan terpendek dapat menggunakan input file berupa (.txt) serta peta yang telah disediakan pada program. Program ini juga menggunakan Google Map API untuk menampilkan peta.
-
 ## Technologies Used
-- Python 3.11.2
+- Python - 3.11.2
+- PyQt5 - 5.15.9
+- Figma
 - Package sys
 - Package webbrowser
 - Package gmplot
 - Package os
 - Package matplotlib
-- PyQt5 5.15.9
-- Figma
+
+## Features
+- User can upload a .txt file containing a weighted adjacency matrix and a list of nodes. The example of the file can be seen in the file 'matrix.txt'
+- User can choose a specific map to be used in the program. The available locations are ITB Bandung, Alun-Alun Bandung, ITB Jatinangor, Cilacap, and Buah Batu.
+- User can see the available nodes in the map by clicking the 'Show' button below graph dropdown
+- User can choose the start and final node
+- User can choose the algorithm to be used to find the shortest path
+- User can see the graph visualization of the shortest path
+- User can see the distance and the path of the shortest path
+- User can see the visualization of the shortest path in Google Maps by clicking the 'OpenGMaps' button
+
+
 
 ## How to Run
 <div>
-1. Clone repository ini dengan menjalankan perintah berikut pada terminal:
+1. Clone this repository by running this command on your terminal:
 
 ```bash
 git clone https://github.com/goodgirlwannabe/Tucil3_13521006_13521023.git
 ```
 </div>
+
 <div>
-2. Install semua <i>requirements</i> yang dibutuhkan
+2. Install all the required packages
 </div>
+
 <div>
-3. Jalankan program utama pada directory repository ini dengan menjalankan perintah berikut pada terminal:
+3. Run the program by running this command on your terminal:
 
 ```bash
 py main.py
@@ -86,54 +100,54 @@ py main.py
 ![](doc/images/img_gui.png)
 
 <br>
-4. Di dalam GUI, upload file yang berisi data matrix dengan cara menekan tombol input file. Perhatikan bahwa format file yang dapat diupload adalah file .txt. Contoh dari file ini dapat dilihat pada file 'test.txt'. Contoh lain format sebagai berikut:
+4. In the program, user can upload a file containing a weighted adjacency matrix and a list of nodes by clicking the 'input file' button. Note that the file format that can be uploaded is a .txt file. The example of the file can be seen in the file 'matrix.txt'. Another example of the file format is as follows:
 
 ```txt
 0 25 14             < Weighted Adjecency Matrix >
-25 0 10             < Setiap Kolom dipisah dengan spasi >
-14 10 0             < Setiap baris dipisah dengan newline >
+25 0 10             < Every column seperated with a space >
+14 10 0             < Every row seperated with a newline >
 
-A B C               < Nama setiap node yang dipisah dengan spasi >
-
-< abaikan pesan dalam blok <> >
+A B C               < name each ccorresponding node seperated with a space >
+< Seperate matrix and its node with an empty line >
+< Ignore text within <> block >
 ```
 ![](doc/images/img_chooseFile.png)
 ![](doc/images/img_searchTxt.png)
 
 <br>
-5. Masukkan nama node awal pada input 'Start' dan 'Final'
+5. Input the desired start and final node in the text box beside 'Start:' and 'Final:'. 
 
 ![](doc/images/img_inputNode.png)
 
 <br>
-6. Pilih algoritma yang akan digunakan untuk mencari lintasan terpendek. Hasil akan langsung tersedia berupa graf visualisasi, jarak yang ditempuh dan jalur yang ditempuh
+6. Choose the desired algorithm to be used to find the shortest path by clicking either 'UCS' or 'A*' button. As soon as you click the button, the program will run the algorithm. The result will show the distance, the path of the shortest path, and the visualization of the graph.
 
 ![](doc/images/img_runFile.png)
 
 <br>
-7. Anda juga bisa memilih peta yang telah disediakan pada program jika mengklik tombol pada dropdown di samping 'Graph'. Peta yang tersedia adalah peta ITB Bandung, Peta Alun-Alun Bandung, Peta ITB Nangor, Peta Cilacap, dan Peta Buah Batu.
+7. User can also choose a specific map to be used in the program. Click the dropdown beside 'Graph:' and choose the desired map.
 
 ![](doc/images/img_chooseFile.png)
 
 <br>
-8. Anda bisa melihat titik-titik mana yang bisa anda pilih untuk menjadi node awal dan node akhir dengan mengklik tombol 'Show Map'
+8. User can see the available nodes in the map by clicking the 'Show' button below graph dropdown
 
 ![](doc/images/img_showMap.png)
 
 <br>
-9. Ulangi langkah 5-6 untuk mencari lintasan terpendek pada peta yang telah dipilih
+9. Repeat step 5 and 6 to find the shortest path in the chosen map.
 
 ![](doc/images/img_runAlgo.png)
 
 <br>
-10. Program akan menuliskan file 'mymap.html' pada root directory. Klik tomboll 'OpenGMaps' untuk melihat visualisasi file tersebut dalam bentuk google maps interaktif.
+10. A new file named 'mymap.html' will be created in the root directory. User can see the visualization of the shortest path in Google Maps by clicking the 'OpenGMaps' button.
 
 ![](doc/images/img_showGmap.png)
 
 ## Project Status
 Project Status: Completed
 
-
 ## Acknowledgements
-- Program ini dibuat untuk memenuhi Tugas Kecil 3 IF2211 Strategi Algoritma
-- Terima kasih kepada Dosen serta Asisten yang telah mengampu Mata Kuliah IF2211 Strategi Algoritma
+- This program was made to fulfill the third mini-project for Algorithm Strategies (IF2211) course from Informatics Engineering, Bandung Institute of Technology.
+- Many thanks to prof. Ir. Rila Mandala, M.Eng., Ph.D. as the lecturer of IF2211 Algorithm Strategies course.
+- Many thanks to all assistants of IF2211 Algorithm Strategies course.
